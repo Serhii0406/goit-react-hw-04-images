@@ -1,23 +1,25 @@
 import PropTypes from 'prop-types';
-import { Component } from 'react';
 import { GalleryItem } from './ImageGalleryItem.styled';
 
-export class ImageGalleryItem extends Component {
-  toggleModal = () => {
-    this.props.writeLargeImage(this.props.bigImg);
-    this.props.onToggle();
+export const ImageGalleryItem = ({
+  writeLargeImage,
+  bigImg,
+  onToggle,
+  image,
+  children,
+}) => {
+  const toggleModal = () => {
+    writeLargeImage(bigImg);
+    onToggle();
   };
 
-  render() {
-    const { image } = this.props;
-    return (
-      <GalleryItem onClick={this.toggleModal}>
-        <img src={image} alt="" />
-        {this.props.children}
-      </GalleryItem>
-    );
-  }
-}
+  return (
+    <GalleryItem onClick={toggleModal}>
+      <img src={image} alt="" />
+      {children}
+    </GalleryItem>
+  );
+};
 
 ImageGalleryItem.propTypes = {
   onToggle: PropTypes.func.isRequired,

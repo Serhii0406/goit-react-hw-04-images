@@ -7,7 +7,7 @@ export const getImages = async (nextRequest, prevPage) => {
     params: {
       q: nextRequest,
       page: prevPage,
-      key: '31320989-3ffacd817f0e2729a6f3a30f9',
+      key: '31232052-ebca7977e423ff0aad3113109',
       image_type: 'photo',
       orientation: 'horizontal',
       per_page: 12,

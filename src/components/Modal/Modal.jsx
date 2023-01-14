@@ -1,43 +1,41 @@
 import PropTypes from 'prop-types';
-import { Component } from 'react';
+import { useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { Overlay, Modalwindow } from './Modal.styled';
 
 const modalRoot = document.querySelector('#modal-root');
 
-export class Modal extends Component {
-  handleKeyDowm = e => {
-    if (e.code === 'Escape') {
-      this.props.onToggle();
+export const Modal = ({ largeImg, onToggle }) => {
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const handleKeyDowm = event => {
+    // console.log('срабатывает');
+    if (event.code === 'Escape') {
+      onToggle();
     }
   };
 
-  componentDidMount() {
-    window.addEventListener('keydown', this.handleKeyDowm);
-  }
+  useEffect(() => {
+    window.addEventListener('keydown', handleKeyDowm);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDowm);
+    };
+  }, [handleKeyDowm]);
 
-  componentWillUnmount() {
-    window.removeEventListener('keydown', this.handleKeyDowm);
-  }
-
-  handleClose = event => {
+  const handleClose = event => {
     if (event.target === event.currentTarget) {
-      this.props.onToggle();
+      onToggle();
     }
   };
 
-  render() {
-    const { largeImg } = this.props;
-    return createPortal(
-      <Overlay onClick={this.handleClose}>
-        <Modalwindow>
-          <img src={largeImg} alt="" />
-        </Modalwindow>
-      </Overlay>,
-      modalRoot
-    );
-  }
-}
+  return createPortal(
+    <Overlay onClick={handleClose}>
+      <Modalwindow>
+        <img src={largeImg} alt="" />
+      </Modalwindow>
+    </Overlay>,
+    modalRoot
+  );
+};
 
 Modal.propTypes = {
   onToggle: PropTypes.func.isRequired,
